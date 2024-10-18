@@ -78,7 +78,7 @@ successor of two; and so on.
 Write out `7` in longhand.
 
 ```agda
--- Your code goes here
+seven = suc (suc (suc (suc (suc (suc (suc zero))))))
 ```
 
 You will need to give both a type signature and definition for the
@@ -439,7 +439,23 @@ other word for evidence, which we will use interchangeably, is _proof_.
 Compute `3 + 4`, writing out your reasoning as a chain of equations, using the equations for `+`.
 
 ```agda
--- Your code goes here
++-example : 3 + 4 ≡ 7
++-example =
+  begin
+    3 + 4
+  ≡⟨⟩
+    (suc (suc (suc zero))) + (suc (suc (suc (suc zero))))
+  ≡⟨⟩
+    suc ((suc (suc zero)) + (suc (suc (suc (suc zero)))))
+  ≡⟨⟩
+    suc (suc ((suc zero) + (suc (suc (suc (suc zero))))))
+  ≡⟨⟩
+    suc (suc (suc (zero + (suc (suc (suc (suc zero)))))))
+  ≡⟨⟩
+    suc (suc (suc (suc (suc (suc (suc zero))))))
+  ≡⟨⟩
+    7
+  ∎
 ```
 
 
@@ -466,7 +482,8 @@ is written
 
     (m + n) * p  ≡  (m * p) + (n * p)
 
-We get the second equation from the third by taking `m` to be `1`, `n`
+We get the second equation from the third by taking
+`m` to be `1`, `n`
 to be `m`, and `p` to be `n`, and then using the fact that one is an
 identity for multiplication, so `1 * n ≡ n`.
 
@@ -924,7 +941,7 @@ Hence, eleven is also represented by `001011`, encoded as:
 
 Define a function
 
-    inc : Bin → Bin
+  inc : Bin → Bin
 
 that converts a bitstring to the bitstring for the next higher
 number.  For example, since `1100` encodes twelve, we should have:
@@ -945,7 +962,19 @@ represents a positive natural, and represent zero by `⟨⟩ O`.
 Confirm that these both give the correct answer for zero through four.
 
 ```agda
--- Your code goes here
+inc : Bin → Bin
+inc ⟨⟩ = ⟨⟩ I
+inc (m O) = m I
+inc (m I) = inc m O 
+
+to : ℕ → Bin
+to (zero) = ⟨⟩ O
+to (suc m) = inc (to (m))
+
+from : Bin → ℕ
+from (⟨⟩) = zero
+from (m O) = 2 * from m
+from (m I) = suc (2 * from m)
 ```
 
 
